@@ -1,0 +1,21 @@
+.button-blue {
+    background-color: rgba(30,144,231,1);
+}
+
+
+.button-animation {
+    background-color: #FFFFFF;
+    color: black;
+    font-weight: 700;
+    transition: all ease 1s;
+    transform: scale(1);
+}
+
+.button-animation:hover {
+    background-color: #FBF1A9;
+    color: black;
+    border: 1px solid yellow;
+    font-weight: 700;
+    transition: all ease 1s;
+    transform: scale(1.1)
+}

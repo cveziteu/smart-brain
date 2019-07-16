@@ -1,0 +1,6 @@
+.Tilt {
+  background-color: #08AEEA;
+  background-image: radial-gradient(circle,#2AF598 0%, rgba(30,144,231,1)  100%);
+  /* background-image: radial-gradient( circle,  rgba(87,108,117,1) 0%, rgba(37,50,55,1) 100.2% ); */
+  /* background-image: radial-gradient( circle,  rgba(31,63,116,1) 0%, rgba(30,144,231,1) 100% ); */
+}
