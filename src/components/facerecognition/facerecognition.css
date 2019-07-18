@@ -11,3 +11,12 @@
     justify-content: center;
     cursor: pointer;
 }
+
+.image-container {
+    display: flex;
+    justify-content: center;
+}
+
+.image-box {
+    position: absolute;
+}

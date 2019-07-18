@@ -5,8 +5,8 @@ import './facerecognition.css';
 const FaceRecognition = ({ imageUrl, box }) => {
 
     return (
-        <div className='center ma w-40'>
-            <div className='mt2'>
+        <div className='image-container ma w-100'>
+            <div className='absolute mt2'>
                 {/* <p>{'This is the face recognition component.'}</p> */}
                 <img 
                     src = {imageUrl} 
@@ -14,7 +14,7 @@ const FaceRecognition = ({ imageUrl, box }) => {
                     className = ''
                     id = 'inputimage'
                     style = {{
-                        zIndex: -2
+                        // zIndex: -3
                     }}
                 />
                 <div 
@@ -24,7 +24,7 @@ const FaceRecognition = ({ imageUrl, box }) => {
                         right: box.rightCol,
                         bottom: box.bottomRow,
                         left: box.leftCol,
-                        zIndex: -1
+                        // zIndex: -1
                     }}
                 >
                 </div>

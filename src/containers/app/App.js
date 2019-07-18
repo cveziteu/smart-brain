@@ -131,26 +131,44 @@ const particleSettings = {
 class App extends React.Component { 
   constructor() {
     super();
+
     this.state = {
       input: '',
       imageUrl: '',
       box: {},
       imageWidth: 0,
-      imageHeight: 0
+      imageHeight: 0,
+      windowHeight: window.innerHeight,
+      windowWidth: window.innerWidth
     }
   }
 
+  // componentDidMount() {
+  //   window.addEventListener("resize", this.updateDimensions);
+  // }
+
+  // componentWillUnmount() {
+  //   window.removeEventListener("resize", this.updateDimensions);
+  // }
+
+  // updateDimensions() {
+  //   const image = document.getElementById('inputimage')
+
+  //   this.setState({
+  //     height: window.innerHeight, 
+  //     width: window.innerWidth,
+  //     imageWidth: Number(image.width),
+  //     imageHeight: Number(image.height)
+  //   });
+  // }
+
   calculateFacelocation = (data) => {
     const faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.getElementById('inputimage');
-
-    const width = Number(image.width);
-    const height = Number(image.height);
-    this.setState({
-      imageWidth: Number(image.width),
-      imageHeight: Number(image.height)
-    })
     // console.log('faceData:', faceData);
+
+    const image = document.getElementById('inputimage')
+    const width = image.width;
+    const height = image.height;
 
     return {
       topRow: parseInt(faceData.top_row * height),
