@@ -1,10 +1,13 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 import Navigation from '../../components/navigation/Navigation';
 import Logo from '../../components/logo/Logo';
 import ImageInputForm from '../../components/imageinputform/ImageInputForm';
 import FaceRecognition from '../../components/facerecognition/FaceRecognition';
 import Rank from '../../components/rank/Rank';
+import Login from '../../components/login/Login';
+import Register from '../../components/registration/Register';
 
 import Particles from 'react-particles-js';
 
@@ -139,7 +142,8 @@ class App extends React.Component {
       imageWidth: 0,
       imageHeight: 0,
       windowHeight: window.innerHeight,
-      windowWidth: window.innerWidth
+      windowWidth: window.innerWidth,
+      isLoggedIn: true
     }
   }
 
@@ -151,30 +155,29 @@ class App extends React.Component {
   //   window.removeEventListener("resize", this.updateDimensions);
   // }
 
-  // updateDimensions() {
-  //   const image = document.getElementById('inputimage')
+  updateDimensions() {
+    const image = document.getElementById('inputimage')
 
-  //   this.setState({
-  //     height: window.innerHeight, 
-  //     width: window.innerWidth,
-  //     imageWidth: Number(image.width),
-  //     imageHeight: Number(image.height)
-  //   });
-  // }
+    this.setState({
+      height: window.innerHeight, 
+      width: window.innerWidth,
+      imageWidth: Number(image.width),
+      imageHeight: Number(image.height)
+    });
+  }
 
   calculateFacelocation = (data) => {
     const faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
-    // console.log('faceData:', faceData);
-
+    console.log(data);
     const image = document.getElementById('inputimage')
     const width = image.width;
     const height = image.height;
 
     return {
       topRow: parseInt(faceData.top_row * height),
+      bottomRow: parseInt(height - (faceData.bottom_row * height)),
       leftCol: parseInt(faceData.left_col * width),
-      rightCol: parseInt(width - (faceData.right_col * width)),
-      bottomRow: parseInt(height - (faceData.bottom_row * height))
+      rightCol: parseInt(width - (faceData.right_col * width))
     }
   }
 
@@ -201,26 +204,31 @@ class App extends React.Component {
   }
 
   render() {
-    const { imageUrl, imageWidth, imageHeight, box } = this.state;
+    const { imageUrl, imageWidth, imageHeight, box, isLoggedIn} = this.state;
     return (
-      <div className="App">
-        <Particles 
-          className = 'particles' 
-          params = {particleSettings} 
-        /> 
-        <Navigation />
-        <Rank />
-        <Logo />
-        <ImageInputForm 
-          onInputChange = {this.onInputChange} 
-          onButtonSubmit = {this.onButtonSubmit} 
-        />
-        <FaceRecognition 
-          imageUrl = {imageUrl}
-          box = {box}
-        />
-        {/* <p>imageWidth: {imageWidth} | imageHeight: {imageHeight}</p> */}
-      </div>
+      <Router>
+        <div className="App">
+          <Particles 
+            className = 'particles' 
+            params = {particleSettings} 
+          /> 
+          <Logo />
+          <Navigation isLoggedIn = {isLoggedIn} />
+          <div className='pt6'>
+            {/* <Rank /> */}
+            {/* <ImageInputForm 
+              onInputChange = {this.onInputChange} 
+              onButtonSubmit = {this.onButtonSubmit} 
+            />
+            <FaceRecognition 
+              imageUrl = {imageUrl}
+              box = {box}
+            /> */}
+            {/* <Register /> */}
+            <Login />
+            </div>
+        </div>
+      </Router>
     );
   }
 }
