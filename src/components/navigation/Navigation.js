@@ -22,7 +22,7 @@ const Navigation = ({isLoggedIn , route, onRouteChange}) => {
                     <Link to='/register'>
                         <div 
                             className=" pa2 ph3 ba b--white-10 bg-white-10 pointer f6 white  hover-white hover-bg-light-red bg-animate"
-                            onClick={() => onRouteChange('login')}
+                            onClick={() => onRouteChange('logout')}
                         >
                             Log out
                         </div>
@@ -32,21 +32,27 @@ const Navigation = ({isLoggedIn , route, onRouteChange}) => {
         )
     }
     else {
-        if (route === 'login') {
+        if (route === 'login' || route === 'logout') {
             return (
                 <nav>
                     <div className=" link hover pa3 flex justify-end">
-                        <div className="pa2 ph2 ba b--white-10 f6 white mr2 nb-t nb-b nb-l">
-                            Not a member?
+                        <div className="pa2 ph2 ba b--white-10 f6 white nb-t nb-b nb-l">
+                            <Link to='/login'>
+                                <div className="pt2 f6 no-underline white">
+                                    Not a member?
+                                </div>
+                            </Link> 
                         </div>
-                        <Link to='/register'>
-                            <div 
-                                className="pa2 ph3 ba b--white-10 bg-white-10 pointer f6 no-underline white hover-yellow grow"
-                                onClick={() => onRouteChange('register')}
-                            >
-                                Sign up
-                            </div>
-                        </Link>         
+                        <div className="pa2 ph2 ba b--white-10 f6 white nb-t nb-b nb-l nb-r">
+                            <Link to='/register'>
+                                <div 
+                                    className="pa2 ba b--white-10 bg-white-10 pointer f6 no-underline white hover-yellow grow"
+                                    onClick={() => onRouteChange('register')}
+                                >
+                                    Sign up
+                                </div>
+                            </Link> 
+                        </div>     
                     </div>
                 </nav>
             )

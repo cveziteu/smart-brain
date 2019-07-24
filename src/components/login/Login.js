@@ -39,7 +39,8 @@ const Login = ({ onRouteChange }) => {
                     <input 
                         className="b ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 white" 
                         type="submit" 
-                        value="Log in" 
+                        value="Log in"
+                        onClick={() => onRouteChange('home')} 
                     />
                 </div>
             </Link>
