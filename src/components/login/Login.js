@@ -3,10 +3,10 @@ import './login.css';
 import {Link} from 'react-router-dom';
 
 
-const Login = () => {
+const Login = ({ onRouteChange }) => {
 
     return (
-        <div className="mw6 center br2 pa3 pa4-ns mv3 bg-white-10 white">
+        <div className="mw6 center pa3 pa4-ns mv3 bg-white-10 white">
             <div className='tc'>
                 <h1 class="f4 yellow">Sign in</h1>
             </div>
@@ -34,17 +34,21 @@ const Login = () => {
                         placeholder='Password'/>
                 </div>
             </fieldset>
-            <div className="mt3">
-                <input className="b ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 white" type="submit" value="Log in" />
-            </div>
+            <Link to='/login'>
+                <div className="mt3">
+                    <input 
+                        className="b ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 white" 
+                        type="submit" 
+                        value="Log in" 
+                    />
+                </div>
+            </Link>
             <div className='tc pa2'>
                 <p className='f6'>
                     Not a member?&nbsp; 
-                    <Link to='/register'>
-                        <span className='yellow light'>
+                        <span className='yellow light pointer' onClick={() => onRouteChange('register')}>
                              Register 
                         </span>
-                    </Link> 
                     &nbsp; for free.
                 </p>
             </div>

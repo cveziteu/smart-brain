@@ -1,9 +1,10 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
-const Register = () => {
+const Register = ({ onRouteChange }) => {
 
     return (
-        <div className="mw6 center br2 pa3 pa4-ns mv3 bg-white-10 white">
+        <div className="mw6 center pa3 pa4-ns mv3 bg-white-10 white">
             <div className='tc'>
                 <h1 className="f4 white">Register</h1>
             </div>
@@ -34,9 +35,11 @@ const Register = () => {
             <div className="mt3">
                 <input className="b ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 white" type="button" value="Register" />
             </div>
-            <div className='tc pa2'>
-                <p className='f6'>Already have an account? <span className='yellow light '>Sign in</span></p>
-            </div>
+            
+                <div className='tc pa2'>
+                    <p className='f6'>
+                        Already have an account? <span className='yellow light pointer' onClick={() => onRouteChange('login')}>Sign in</span></p>
+                </div>
         </div>
     );
 };
