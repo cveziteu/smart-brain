@@ -1,5 +1,9 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {
+  BrowserRouter as Router, 
+  // Route, 
+  // Switch
+} from 'react-router-dom';
 
 import Navigation from '../../components/navigation/Navigation';
 import ParticleSettings from '../../components/particles/ParticlesSettings';
@@ -23,9 +27,9 @@ class App extends React.Component {
 
   onRouteChange = (route) => {
     if (route === 'logout') {
-      this.setState({isSignedIn: false})
+      this.setState({isLoggedIn: false})
     } else if (route === 'home') {
-      this.setState({isSignedIn: true})
+      this.setState({isLoggedIn: true})
     }
     this.setState({route: route});
   }
@@ -52,7 +56,7 @@ class App extends React.Component {
               route === 'home'
                 ? <Main />
                 : (
-                  route === 'login'
+                  route === 'login' || route === 'logout'
                     ? <Login onRouteChange={this.onRouteChange} />
                     : <Register onRouteChange={this.onRouteChange} />
               )
