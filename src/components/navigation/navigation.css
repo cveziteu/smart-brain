@@ -1,0 +1,16 @@
+.nb-t {
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+
+.nb-b {
+    border-bottom: 1px solid transparent;
+}
+
+.nb-r {
+    border-right: 1px solid transparent;
+}
+
+.nb-l {
+    border-left: 1px solid transparent;
+}
