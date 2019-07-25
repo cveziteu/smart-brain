@@ -6,30 +6,38 @@ const Register = ({ onRouteChange }) => {
     return (
         <div className="mw6 center pa3 pa4-ns mv3 bg-white-10 white">
             <div className='tc'>
-                <h1 className="f4 white">Register</h1>
+                <h1 className="f4 yellow">Register</h1>
             </div>
             <fieldset id="sign_up" className="b--transparent ph0 mh0">
+                <div className='mt3'>
+                    <i class="fa fa-user pa1" aria-hidden="true"></i>
+                    <input 
+                        className="pa2 input-reset bg-transparent w-70 measure inputBox bb" 
+                        type="text" 
+                        name="username" 
+                        id="username" 
+                        placeholder='Username'
+                    />
+                </div>
                 <div className="mt3">
-                    {/* <label className="db fw4 lh-copy f6" for="email-address">
-                        Email address
-                    </label> */}
+                    <i class="fa fa-envelope pa1" aria-hidden="true"></i>
                     <input 
                         className="pa2 input-reset bg-transparent w-70 measure inputBox bb" 
                         type="email" 
                         name="email-address" 
                         id="email-address" 
-                        placeholder='Email address'/>
+                        placeholder='Email address'
+                    />
                 </div>
                 <div className="mt3">
-                    {/* <label className="db fw4 lh-copy f6" for="password">
-                        Password
-                    </label> */}
+                    <i class="fa fa-key pa1" aria-hidden="true"></i>
                     <input 
                         className="pa2 input-reset bg-transparent w-70 measure inputBox" 
                         type="password" 
                         name="password" 
                         id="password" 
-                        placeholder='Password'/>
+                        placeholder='Password'
+                    />
                 </div>
             </fieldset>
             <div className="mt3">
