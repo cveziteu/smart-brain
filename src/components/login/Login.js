@@ -12,9 +12,7 @@ const Login = ({ onRouteChange }) => {
             </div>
             <fieldset id="sign_up" className="b--transparent ph0 mh0">
                 <div className="mt3">
-                    {/* <label className="db fw4 lh-copy f6" for="email-address">
-                        Email address
-                    </label> */}
+                    <i class="fa fa-envelope pa1" aria-hidden="true"></i>
                     <input 
                         className="pa2 input-reset bg-transparent w-70 measure inputBox bb" 
                         type="email" 
@@ -23,9 +21,7 @@ const Login = ({ onRouteChange }) => {
                         placeholder='Email address'/>
                 </div>
                 <div className="mt3">
-                    {/* <label className="db fw4 lh-copy f6" for="password">
-                        Password
-                    </label> */}
+                    <i class="fa fa-key pa1" aria-hidden="true"></i>
                     <input 
                         className="pa2 input-reset bg-transparent w-70 measure inputBox" 
                         type="password" 
