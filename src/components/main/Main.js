@@ -11,25 +11,27 @@ const app = new Clarifai.App({
  });
 
 class Main extends React.Component {  
-  constructor() {
-
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
       input: '',
       imageUrl: '',
-      box: {},
-      imageWidth: 0,
-      imageHeight: 0,
-      windowHeight: window.innerHeight,
-      windowWidth: window.innerWidth,
+      box: {}
     }
   }
+
+  // componentDidMount() {
+  //   fetch('http://localhost:3001/')
+  //   .then(response => response.json())
+  //   .then(console.log)
+  // }
+
 
   onInputChange = (event) => {
     console.log(event.target.value);
     this.setState({input: event.target.value});
   }
+
 
   onButtonSubmit = () => {
       console.log('Button Clicked!');
@@ -38,43 +40,62 @@ class Main extends React.Component {
         .predict(
           Clarifai.FACE_DETECT_MODEL,
           this.state.input)
-        .then(response => this.calculateFacelocation(response))
-        .then(result => this.displayBoundingBox(result))
+        .then(response => {
+          
+          this.displayBoundingBox(this.calculateFaceLocation(response))
+        })
         .catch(err => console.log(err));
   }
 
   
-  calculateFacelocation = (data) => {
-    const faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
-    console.log(data);
-    const image = document.getElementById('inputimage')
-    const width = image.width;
-    const height = image.height;
-
-    return {
-      topRow: parseInt(faceData.top_row * height),
-      bottomRow: parseInt(height - (faceData.bottom_row * height)),
-      leftCol: parseInt(faceData.left_col * width),
-      rightCol: parseInt(width - (faceData.right_col * width))
+  calculateFaceLocation = (data) => {
+    console.log('data', data);
+    const faceData = [];
+    if (data.outputs[0].data.regions) {
+        fetch('http://localhost:3001/image', {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: this.props.userId
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          this.props.updateEntries(data.entries);
+          console.log(data.entries);
+        })
+        faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
+        console.log(faceData);
+        const image = document.getElementById('inputimage')
+        const width = image.width;
+        const height = image.height;
+    
+        return {
+          topRow: parseInt(faceData.top_row * height),
+          bottomRow: parseInt(height - (faceData.bottom_row * height)),
+          leftCol: parseInt(faceData.left_col * width),
+          rightCol: parseInt(width - (faceData.right_col * width))
+        }
     }
+    else {
+      return {
+        topRow: null,
+        bottomRow: null,
+        leftCol: null,
+        rightCol: null
+      }
+    }
+
+
+    
   }
 
   displayBoundingBox = (box) => {
     this.setState({box: box});
     console.log(box);
   }
-
-  updateDimensions = () => {
-    const image = document.getElementById('inputimage')
-    this.setState({
-      height: window.innerHeight, 
-      width: window.innerWidth,
-      imageWidth: Number(image.width),
-      imageHeight: Number(image.height)
-    });
-  }
-
-
 
   render() {
     const {box, imageUrl} = this.state;

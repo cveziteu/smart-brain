@@ -12,9 +12,6 @@ const FaceRecognition = ({ imageUrl, box }) => {
                     src = {imageUrl} 
                     alt = ''
                     id = 'inputimage'
-                    style = {{
-                        // zIndex: -3
-                    }}
                     width = '500px'
                     height = 'auto'
                 />
@@ -24,10 +21,9 @@ const FaceRecognition = ({ imageUrl, box }) => {
                         top: box.topRow, 
                         right: box.rightCol,
                         bottom: box.bottomRow,
-                        left: box.leftCol,
-                        // zIndex: -1
+                        left: box.leftCol
                     }}
-                >
+                > 
                 </div>
             </div>
         </div>
