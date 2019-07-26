@@ -3,18 +3,18 @@ import {Link} from 'react-router-dom';
 
 import './navigation.css';
 
-const Navigation = ({isLoggedIn , route, onRouteChange}) => {
+const Navigation = ({isLoggedIn , route, onRouteChange, name, entries}) => {
     if (isLoggedIn) {
         return (
             <nav>
                 <div className=" link hover pa3 flex justify-end">
                     <div className='mr1'>
                         <div className='f6 tr pa2'>
-                        <i class="fa fa-user mr2" aria-hidden="true"></i><span className='light-yellow fw5'>Laura</span>
+                        <i className="fa fa-user mr2" aria-hidden="true"></i><span className='light-yellow fw5'>{name}</span>
                         </div>
                     </div>
                     <div className="pa2 ph3 ba b--white-10 f6 white pointer mr2 nb-t nb-b">
-                        Rank <span className='light-yellow fw4'>#4</span>
+                        Entries: <span className='light-yellow fw4'>{entries}</span>
                     </div>
                     <Link to='/register'>
                         <div 

@@ -21,9 +21,35 @@ class App extends React.Component {
 
     this.state = {
       isLoggedIn: false,
-      route: 'login'
+      route: 'login',
+      user: {
+        id: '',
+        username: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
+
+  
+  loadUser = (userData) => {
+    this.setState({user: {
+      id: userData.id,
+      username: userData.username,
+      email: userData.email,
+      entries: userData.entries,
+      joined: userData.joined
+    }})
+  }
+
+
+  updateEntries = (count) => {
+    this.setState(Object.assign(this.state.user, {
+      entries: count
+    }))
+  }
+
 
   onRouteChange = (route) => {
     if (route === 'logout') {
@@ -36,7 +62,7 @@ class App extends React.Component {
 
 
   render() {
-    const { isLoggedIn, route } = this.state;
+    const { isLoggedIn, route, user } = this.state;
     return (
       <Router>
         <div className="App">
@@ -45,7 +71,9 @@ class App extends React.Component {
           <Navigation 
             isLoggedIn = {isLoggedIn}
             route = {route}
-            onRouteChange = {this.onRouteChange} 
+            onRouteChange = {this.onRouteChange}
+            name = {user.username}
+            entries = {user.entries} 
           />
           {/* <Switch>
             <Route path='/register' component={Register} />
@@ -54,11 +82,11 @@ class App extends React.Component {
           <div className='pt6'>
             {
               route === 'home'
-                ? <Main />
+                ? <Main userId = {user.id} updateEntries = {this.updateEntries} />
                 : (
                   route === 'login' || route === 'logout'
-                    ? <Login onRouteChange={this.onRouteChange} />
-                    : <Register onRouteChange={this.onRouteChange} />
+                    ? <Login loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+                    : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
               )
             }
           </div>
