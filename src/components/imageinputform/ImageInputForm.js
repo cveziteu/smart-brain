@@ -6,7 +6,7 @@ const text2 = '/* enter a picture link below and give it a try. */';
 const placeholder = 'Enter your image link here...';
 const button = 'Detect';
 
-const ImageInputForm = ({ onInputChange, onButtonSubmit }) => {
+const ImageInputForm = ({ onInputChange, onButtonSubmit , noFaceMessage }) => {
 
     return(
         <div className='tc ma5'>
@@ -30,7 +30,9 @@ const ImageInputForm = ({ onInputChange, onButtonSubmit }) => {
                     {button}
                 </button>
             </div>
-            
+            <div className='mt3'>
+                <p id='noFaceMessage' className='f6'>{noFaceMessage}</p>
+            </div>
         </div>
         
     )

@@ -16,7 +16,8 @@ class Main extends React.Component {
     this.state = {
       input: '',
       imageUrl: '',
-      box: {}
+      box: {},
+      noFaceMessage: ''
     }
   }
 
@@ -34,7 +35,7 @@ class Main extends React.Component {
 
 
   onButtonSubmit = () => {
-      console.log('Button Clicked!');
+      // console.log('Button Clicked!');
       this.setState({imageUrl: this.state.input});
       app.models
         .predict(
@@ -50,22 +51,25 @@ class Main extends React.Component {
   
   calculateFaceLocation = (data) => {
     console.log('data', data);
-    const faceData = [];
+    let faceData = [];
     if (data.outputs[0].data.regions) {
         fetch('http://localhost:3001/image', {
-          method: 'put',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            id: this.props.userId
-          })
+            method: 'put',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: this.props.userId,
+                imageUrl: this.state.imageUrl
+            })
         })
         .then(response => response.json())
         .then(data => {
-          this.props.updateEntries(data.entries);
-          console.log(data.entries);
+            this.props.updateEntries(data);
+            this.setState({ noFaceMessage: "" });
         })
+        .catch(err => { console.log(err) });
+
         faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
         console.log(faceData);
         const image = document.getElementById('inputimage')
@@ -73,18 +77,34 @@ class Main extends React.Component {
         const height = image.height;
     
         return {
-          topRow: parseInt(faceData.top_row * height),
-          bottomRow: parseInt(height - (faceData.bottom_row * height)),
-          leftCol: parseInt(faceData.left_col * width),
-          rightCol: parseInt(width - (faceData.right_col * width))
+            topRow: parseInt(faceData.top_row * height),
+            bottomRow: parseInt(height - (faceData.bottom_row * height)),
+            leftCol: parseInt(faceData.left_col * width),
+            rightCol: parseInt(width - (faceData.right_col * width))
         }
     }
     else {
+      fetch('http://localhost:3001/imagenoface', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: this.props.userId,
+            imageUrl: this.state.imageUrl
+          })
+      })
+      .then(response => response.json())
+      .then(message => {
+          this.setState({ noFaceMessage: "Oh snap! We couldn't detect any faces in your photograph. Please try another one." });
+      })
+      .catch(console.log)
+
       return {
-        topRow: null,
-        bottomRow: null,
-        leftCol: null,
-        rightCol: null
+          topRow: null,
+          bottomRow: null,
+          leftCol: null,
+          rightCol: null
       }
     }
 
@@ -98,12 +118,13 @@ class Main extends React.Component {
   }
 
   render() {
-    const {box, imageUrl} = this.state;
+    const {box, imageUrl, noFaceMessage} = this.state;
     return (
       <div>
           <ImageInputForm 
             onInputChange = {this.onInputChange} 
-            onButtonSubmit = {this.onButtonSubmit} 
+            onButtonSubmit = {this.onButtonSubmit}
+            noFaceMessage = {noFaceMessage}
           />
           <FaceRecognition 
             imageUrl = {imageUrl}
