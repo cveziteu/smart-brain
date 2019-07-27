@@ -64,24 +64,21 @@ class Register extends React.Component {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    id: '',
                     username: this.state.inputUsername,
                     email: this.state.inputEmail,
                     password: this.state.inputPassword,
-                    entries: 0,
-                    joined: ''
                 })
             })
             .then(response => response.json())
             .then(user => {
-                if (user === 'success') {
+                if (user) {
                     this.setMessage('message','User was successfuly registered.');
                     this.addClass('message', 'success');
                     this.props.loadUser(user);
                     this.props.onRouteChange('home');
                 }
             })
-            .catch(console.log)
+            .catch(console.log)            
         }        
     }
 

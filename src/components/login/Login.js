@@ -32,9 +32,15 @@ class Login extends React.Component {
         })
         .then(response => response.json())
         .then(data => {
-            if (data !== 'error') {
+            if (data !== 'wrong credentials' && data !== 'bad request') {
                 this.props.loadUser(data);
                 this.props.onRouteChange('home')
+            }
+            else if (data === 'bad request') {
+                document.getElementById('error').innerHTML = '<span class="invalid">Invalid username or password.</span>';
+            }
+            else if (data === 'unable to get user') {
+                document.getElementById('error').innerHTML = '<span class="invalid">Something went wrong. Please try again later.</span>';
             }
             else {
                 if (document.getElementById('email-address').value === '') {
@@ -48,6 +54,7 @@ class Login extends React.Component {
                 }
             }
         })
+        .catch(console.log);
         
     }
 
