@@ -24,3 +24,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.error {
+  background-color: pink;
+  color:#222;
+  font-weight: 400;
+}
+
+.success {
+  background-color: limegreen;
+  color:white;
+  font-weight: 700;
+}

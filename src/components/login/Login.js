@@ -22,40 +22,40 @@ class Login extends React.Component {
     }
 
     onSubmit = () => {
-        fetch('http://localhost:3001/login', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: this.state.inputEmail,
-                password: this.state.inputPassword
+        if (document.getElementById('email-address').value === '') {
+            this.props.setMessage('message', 'Please enter your email address.');
+            this.props.addClass('message', 'error');
+        }
+        else if (document.getElementById('password').value === '') {
+            this.props.setMessage('message', 'Please enter your password.');
+            this.props.addClass('message', 'error');
+        }
+        else {
+            fetch('http://localhost:3001/login', {
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    email: this.state.inputEmail,
+                    password: this.state.inputPassword
+                })
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data !== 'wrong credentials' && data !== 'bad request') {
-                this.props.loadUser(data);
-                this.props.onRouteChange('home')
-            }
-            else if (data === 'bad request') {
-                document.getElementById('error').innerHTML = '<span class="invalid">Invalid username or password.</span>';
-            }
-            else if (data === 'unable to get user') {
-                document.getElementById('error').innerHTML = '<span class="invalid">Something went wrong. Please try again later.</span>';
-            }
-            else {
-                if (document.getElementById('email-address').value === '') {
-                    document.getElementById('error').innerHTML = '<span class="invalid">Please enter your email address.</span>';
+            .then(response => response.json())
+            .then(data => {
+                if (data === 'bad request' || data === 'wrong credentials') {
+                    this.props.setMessage('message', 'Incorrect username or password.');
+                    this.props.addClass('message', 'error');
                 }
-                else if (document.getElementById('password').value === '') {
-                    document.getElementById('error').innerHTML = '<span class="invalid">Please enter your password.</span>';
+                else if (data === 'unable to get user') {
+                    this.props.setMessage('message', 'Something went wrong. Please try again later.');
+                    this.props.addClass('message', 'error');
                 }
                 else {
-                    document.getElementById('error').innerHTML = '<span class="invalid">Incorrect username or password.</span>';
-                }
-            }
-        })
-        .catch(console.log);
-        
+                    this.props.loadUser(data);
+                    this.props.onRouteChange('home');
+                    }
+            })
+            .catch(console.log);
+        }
     }
 
     render() {
@@ -68,7 +68,7 @@ class Login extends React.Component {
                 </div>
                 <fieldset id="sign_up" className="b--transparent ph0 mh0">
                     <div className="mt3">
-                        <p id='error'></p>
+                        <p id='message'></p>
                     </div>
                     <div className="mt3">
                         <i className="fa fa-envelope pa1" aria-hidden="true"></i>

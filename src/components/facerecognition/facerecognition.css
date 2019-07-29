@@ -1,6 +1,8 @@
 .facebox {
     position: absolute;
-    box-shadow: 0 0 0 3px #308FDC inset;
+    /* box-shadow: 0 0 0 3px #308FDC inset; */
+    border-radius: 5px;
+    
     display: -webkit-box;
     display: -ms-box;
     display: flex;
@@ -10,7 +12,23 @@
     -ms-flex-pack: center;
     justify-content: center;
     cursor: pointer;
+    animation: opacityAnimation 3s infinite;
 }
+
+@keyframes opacityAnimation {
+    0% {
+        background-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 2px red inset;
+    }
+    50% {
+        background-color: rgba(255, 255, 255, 0);
+        box-shadow: 0 0 0 0px red inset;
+    }
+    100% {
+        background-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 2px red inset;
+    }
+  }
 
 .image-container {
     display: flex;
@@ -19,4 +37,8 @@
 
 .image-box {
     position: absolute;
+}
+
+#inputimage {
+    border-radius: 5px;
 }

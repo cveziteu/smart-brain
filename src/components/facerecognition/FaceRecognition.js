@@ -2,12 +2,10 @@ import React from 'react';
 import './facerecognition.css';
 
 
-const FaceRecognition = ({ imageUrl, box }) => {
-
+const FaceRecognition = ({ imageUrl, allFaceBoxes }) => {
     return (
         <div className='image-container ma'>
             <div className='absolute mt2'>
-                {/* <p>{'This is the face recognition component.'}</p> */}
                 <img 
                     src = {imageUrl} 
                     alt = ''
@@ -15,16 +13,24 @@ const FaceRecognition = ({ imageUrl, box }) => {
                     width = '500px'
                     height = 'auto'
                 />
-                <div 
-                    className='facebox'
-                    style = {{
-                        top: box.topRow, 
-                        right: box.rightCol,
-                        bottom: box.bottomRow,
-                        left: box.leftCol
-                    }}
-                > 
-                </div>
+                {   allFaceBoxes !== undefined 
+                        ? allFaceBoxes.map((box, key) => {
+                            return (
+                                <div 
+                                    key={key}
+                                    className='facebox'
+                                    style = {{
+                                        top: box.topRow, 
+                                        right: box.rightCol,
+                                        bottom: box.bottomRow,
+                                        left: box.leftCol
+                                    }}
+                                > 
+                                </div>
+                            )
+                        })
+                        : <div></div>
+                }
             </div>
         </div>
         

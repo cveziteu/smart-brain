@@ -50,6 +50,14 @@ class App extends React.Component {
     }))
   }
 
+  addClass = (id, requestedClass) => {
+      document.getElementById(id).classList.add(requestedClass);
+  }
+
+  setMessage = (id, message) => {
+      document.getElementById(id).innerHTML = message;
+  }
+
 
   onRouteChange = (route) => {
     if (route === 'logout') {
@@ -82,11 +90,21 @@ class App extends React.Component {
           <div className='pt6'>
             {
               route === 'home'
-                ? <Main userId = {user.id} updateEntries = {this.updateEntries} />
+                ? <Main userId = {user.id}  updateEntries = {this.updateEntries}  />
                 : (
                   route === 'login' || route === 'logout'
-                    ? <Login loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-                    : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+                    ? <Login 
+                        loadUser={this.loadUser} 
+                        onRouteChange={this.onRouteChange} 
+                        setMessage = {this.setMessage} 
+                        addClass = {this.addClass}
+                      />
+                    : <Register 
+                        loadUser={this.loadUser} 
+                        onRouteChange={this.onRouteChange} 
+                        setMessage = {this.setMessage} 
+                        addClass = {this.addClass}
+                      />
               )
             }
           </div>
