@@ -3,11 +3,14 @@ import Tilt from 'react-tilt';
 import './Logo.css';
 import logo from './smartbrain.svg';
 
-const Logo = () => {
+const Logo = ({onRouteChange}) => {
     return (
         <div className='ma3 mt1 pa3 absolute'>
             <Tilt className="Tilt br2 shadow-2" options={{ max : 25 }} style={{ height: 100, width: 100 }} >
-                <div className="Tilt-inner">
+                <div 
+                    className="Tilt-inner"
+                    onClick={() => onRouteChange('home')}
+                >
                     <img 
                         src={logo} 
                         alt='logo'

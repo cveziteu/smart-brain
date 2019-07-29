@@ -13,6 +13,8 @@ import Register from '../../components/registration/Register';
 import Main from '../../components/main/Main';
 
 import './App.css';
+import Profile from '../../components/profile/Profile';
+import Ranking from '../../components/ranking/Ranking';
 
 
 class App extends React.Component { 
@@ -43,6 +45,15 @@ class App extends React.Component {
     }})
   }
 
+  updateProfile = (userData) => {
+    // this.setState({user: {
+    //   id: userData.id,
+    //   username: userData.username,
+    //   email: userData.email,
+    //   entries: userData.entries,
+    //   joined: userData.joined
+    // }})
+  }
 
   updateEntries = (count) => {
     this.setState(Object.assign(this.state.user, {
@@ -58,14 +69,15 @@ class App extends React.Component {
       document.getElementById(id).innerHTML = message;
   }
 
+  isLoggedInChange = (bool) => {
+    this.setState({isLoggedIn: bool})
+  }
 
   onRouteChange = (route) => {
-    if (route === 'logout') {
-      this.setState({isLoggedIn: false})
-    } else if (route === 'home') {
-      this.setState({isLoggedIn: true})
+    if (route === 'logout') this.isLoggedInChange(false);
+    if (route !== 'home' || (route === 'home' && this.state.isLoggedIn)) {
+      this.setState({route: route});
     }
-    this.setState({route: route});
   }
 
 
@@ -75,7 +87,9 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <ParticleSettings />
-          <Logo />
+          <Logo 
+            onRouteChange = {this.onRouteChange}
+          />
           <Navigation 
             isLoggedIn = {isLoggedIn}
             route = {route}
@@ -98,14 +112,24 @@ class App extends React.Component {
                         onRouteChange={this.onRouteChange} 
                         setMessage = {this.setMessage} 
                         addClass = {this.addClass}
+                        isLoggedInChange = {this.isLoggedInChange}
                       />
-                    : <Register 
-                        loadUser={this.loadUser} 
-                        onRouteChange={this.onRouteChange} 
-                        setMessage = {this.setMessage} 
-                        addClass = {this.addClass}
-                      />
-              )
+                    : (
+                      route === 'register'
+                        ? <Register 
+                            loadUser={this.loadUser} 
+                            onRouteChange={this.onRouteChange} 
+                            setMessage = {this.setMessage} 
+                            addClass = {this.addClass}
+                            isLoggedInChange = {this.isLoggedInChange}
+                          />
+                        : (
+                          route === 'profile'
+                            ? <Profile userProfile = {user} />
+                            : <Ranking />
+                        )
+                    )
+                )
             }
           </div>
         </div>
