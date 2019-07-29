@@ -16,8 +16,9 @@ class Main extends React.Component {
     this.state = {
       input: '',
       imageUrl: '',
-      box: {},
-      noFaceMessage: ''
+      box: [],
+      noFaceMessage: '',
+      allFaceBoxes: []
     }
   }
 
@@ -36,22 +37,24 @@ class Main extends React.Component {
 
   onButtonSubmit = () => {
       // console.log('Button Clicked!');
-      this.setState({imageUrl: this.state.input});
-      app.models
-        .predict(
-          Clarifai.FACE_DETECT_MODEL,
-          this.state.input)
-        .then(response => {
-          
-          this.displayBoundingBox(this.calculateFaceLocation(response))
-        })
-        .catch(err => console.log(err));
+      if (this.state.input !== '') {
+        this.setState({imageUrl: this.state.input});
+        app.models
+          .predict(
+            Clarifai.FACE_DETECT_MODEL,
+            this.state.input)
+          .then(response => {
+            this.displayBoundingBox(this.calculateFaceLocation(response));
+          })
+          .catch(err => console.log(err));
+      }
   }
 
   
   calculateFaceLocation = (data) => {
-    console.log('data', data);
+    // console.log('data', data);
     let faceData = [];
+    let allFaces = [];
     if (data.outputs[0].data.regions) {
         fetch('http://localhost:3001/image', {
             method: 'put',
@@ -70,19 +73,38 @@ class Main extends React.Component {
         })
         .catch(err => { console.log(err) });
 
-        faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
-        console.log(faceData);
+        //* SINGLE FACE LOGIC
+        // faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
+        // console.log(faceData);
+        // const image = document.getElementById('inputimage')
+        // const width = image.width;
+        // const height = image.height;
+    
+        // return {
+        //     topRow: parseInt(faceData.top_row * height),
+        //     bottomRow: parseInt(height - (faceData.bottom_row * height)),
+        //     leftCol: parseInt(faceData.left_col * width),
+        //     rightCol: parseInt(width - (faceData.right_col * width))
+        // }
+
+        //* MULTIPLE FACES LOGIC
+        faceData = data.outputs[0].data.regions;
+        // console.log(faceData);
         const image = document.getElementById('inputimage')
         const width = image.width;
         const height = image.height;
-    
-        return {
-            topRow: parseInt(faceData.top_row * height),
-            bottomRow: parseInt(height - (faceData.bottom_row * height)),
-            leftCol: parseInt(faceData.left_col * width),
-            rightCol: parseInt(width - (faceData.right_col * width))
+
+
+        for (let i = 0; i < faceData.length; i++) {
+          // console.log('faceData[i]', faceData[i]);
+          allFaces.push({
+            topRow: parseInt(faceData[i].region_info.bounding_box.top_row * height),
+            bottomRow: parseInt(height - (faceData[i].region_info.bounding_box.bottom_row * height)),
+            leftCol: parseInt(faceData[i].region_info.bounding_box.left_col * width),
+            rightCol: parseInt(width - (faceData[i].region_info.bounding_box.right_col * width))
+          })
         }
-    }
+   }
     else {
       fetch('http://localhost:3001/imagenoface', {
           method: 'post',
@@ -96,29 +118,29 @@ class Main extends React.Component {
       })
       .then(response => response.json())
       .then(message => {
-          this.setState({ noFaceMessage: "Oh snap! We couldn't detect any faces in your photograph. Please try another one." });
+          this.setState({ noFaceMessage: 'Oh snap! We couldn\'t detect any faces in your photograph. Please try another one.' });
       })
       .catch(console.log)
 
-      return {
+      allFaces.push({
           topRow: null,
           bottomRow: null,
           leftCol: null,
           rightCol: null
-      }
+      });
     }
-
+    
+    return allFaces;
 
     
   }
 
-  displayBoundingBox = (box) => {
-    this.setState({box: box});
-    console.log(box);
+  displayBoundingBox = (allBoxes) => {
+    this.setState({allFaceBoxes: allBoxes});
   }
 
   render() {
-    const {box, imageUrl, noFaceMessage} = this.state;
+    const {allFaceBoxes, imageUrl, noFaceMessage} = this.state;
     return (
       <div>
           <ImageInputForm 
@@ -128,7 +150,7 @@ class Main extends React.Component {
           />
           <FaceRecognition 
             imageUrl = {imageUrl}
-            box = {box}
+            allFaceBoxes = {allFaceBoxes}
           />
       </div>
     );

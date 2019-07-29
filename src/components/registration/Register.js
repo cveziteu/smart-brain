@@ -30,34 +30,27 @@ class Register extends React.Component {
         this.setState({ inputRetypePassword: event.target.value})
     }
     
-    addClass = (id, requestedClass) => {
-        document.getElementById(id).classList.add(requestedClass);
-    }
-
-    setMessage = (id, message) => {
-        document.getElementById(id).innerHTML = message;
-    }
 
     onSubmit = () => {
         if (document.getElementById('username').value === '') {
-            this.setMessage('message','Please enter a username.');
-            this.addClass('message', 'error');
+            this.props.setMessage('message','Please enter a username.');
+            this.props.addClass('message', 'error');
         }
         else if (document.getElementById('email-address').value === '') {
-            this.setMessage('message','Email field is empty.');
-            this.addClass('message', 'error');
+            this.props.setMessage('message','Email field is empty.');
+            this.props.addClass('message', 'error');
         }
         else if (document.getElementById('password').value === '') {
-            this.setMessage('message','Password field is empty.');
-            this.addClass('message', 'error');
+            this.props.setMessage('message','Password field is empty.');
+            this.props.addClass('message', 'error');
         }
         else if (document.getElementById('retype_password').value === '') {
-            this.setMessage('message','Please re-type your password.');
-            this.addClass('message', 'error');
+            this.props.setMessage('message','Please re-type your password.');
+            this.props.addClass('message', 'error');
         }
         else if (this.state.inputPassword !== this.state.inputRetypePassword) {
-            this.setMessage('message','Passwords do not match.');
-            this.addClass('message', 'error');
+            this.props.setMessage('message','Passwords do not match.');
+            this.props.addClass('message', 'error');
         }
         else {
             fetch('http://localhost:3001/register', {
@@ -70,11 +63,15 @@ class Register extends React.Component {
                 })
             })
             .then(response => response.json())
-            .then(user => {
-                if (user) {
-                    this.setMessage('message','User was successfuly registered.');
-                    this.addClass('message', 'success');
-                    this.props.loadUser(user);
+            .then(result => {
+                if (result === 'unable to register') {
+                    this.props.setMessage('message','<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> There is already an user registered with that email address.');
+                    this.props.addClass('message', 'error');
+                }
+                else {
+                    this.props.setMessage('message','User was successfuly registered.');
+                    this.props.addClass('message', 'success');
+                    this.props.loadUser(result);
                     this.props.onRouteChange('home');
                 }
             })
