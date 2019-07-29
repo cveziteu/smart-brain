@@ -51,6 +51,7 @@ class Login extends React.Component {
                 }
                 else {
                     this.props.loadUser(data);
+                    this.props.isLoggedInChange(true);
                     this.props.onRouteChange('home');
                     }
             })

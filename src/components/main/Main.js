@@ -56,7 +56,7 @@ class Main extends React.Component {
     let faceData = [];
     let allFaces = [];
     if (data.outputs[0].data.regions) {
-        fetch('http://localhost:3001/image', {
+        fetch('http://localhost:3001/entries', {
             method: 'put',
             headers: {
               'Content-Type': 'application/json'

@@ -72,6 +72,7 @@ class Register extends React.Component {
                     this.props.setMessage('message','User was successfuly registered.');
                     this.props.addClass('message', 'success');
                     this.props.loadUser(result);
+                    this.props.isLoggedInChange(true);
                     this.props.onRouteChange('home');
                 }
             })
