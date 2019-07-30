@@ -32,13 +32,19 @@ class Register extends React.Component {
     
 
     onSubmit = () => {
+        const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}$/;
+
         if (document.getElementById('username').value === '') {
             this.props.setMessage('message','Please enter a username.');
             this.props.addClass('message', 'error');
         }
         else if (document.getElementById('email-address').value === '') {
-            this.props.setMessage('message','Email field is empty.');
+            this.props.setMessage('message','Please enter your email address.');
             this.props.addClass('message', 'error');
+        }
+        else if (emailRegex.test(this.state.inputEmail) === false) {
+            this.props.setMessage('message','Please enter a valid email address.');
+            this.props.addClass('message','error');
         }
         else if (document.getElementById('password').value === '') {
             this.props.setMessage('message','Password field is empty.');

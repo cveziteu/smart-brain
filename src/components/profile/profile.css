@@ -1,0 +1,20 @@
+td.pa3 {
+    background-color: rgba(255,255,255, 0.1);
+    border-right: 1px solid rgba(255,255,255,0.3);
+    border-left: 5px solid #FAF0A9;
+    /* border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px; */
+    width: 25%;
+}
+
+.trstyle {
+    margin-top: 20px;
+}
+
+td.light-yellow {
+    background-color: rgba(255,255,255, 0.1);
+}
+
+table {
+    border-spacing: 0 5px;
+}
